@@ -204,11 +204,13 @@ def normalize_model_issue(item: Any, index: int) -> dict[str, Any]:
 
 
 @app.get("/api/health")
+@app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok", "version": app.version}
 
 
 @app.post("/api/preview")
+@app.post("/preview")
 async def preview(file: UploadFile = File(...)) -> Response:
     """Render browser-incompatible raster formats for preview only."""
     data = await file.read()
@@ -223,6 +225,7 @@ async def preview(file: UploadFile = File(...)) -> Response:
 
 
 @app.post("/api/model-test")
+@app.post("/model-test")
 async def model_test(model_json: str = Form("")) -> dict[str, Any]:
     """Test endpoint reachability and authentication without uploading a figure."""
     try:
@@ -243,6 +246,7 @@ async def model_test(model_json: str = Form("")) -> dict[str, Any]:
 
 
 @app.post("/api/review")
+@app.post("/review")
 async def review(file: UploadFile = File(...), figure_type: str = Form("multi_panel"), purpose: str = Form("paper"), preset: str = Form("general"), caption: str = Form(""), context_note: str = Form(""), model_json: str = Form("")) -> dict[str, Any]:
     data = await file.read()
     if not data:
